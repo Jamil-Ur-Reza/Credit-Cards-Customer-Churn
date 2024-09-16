@@ -1,6 +1,7 @@
-
+#Please set the path where the file data_pca_v1.xlsx is located in your environment.
 setwd("C:/Users/wg1075/Downloads/TRU/dasc5420/Assignments/PROJECT DASC5420/Data")
 
+#Function to get the predictions and performance for each classifier.
 predictions_and_performance <- function(train.data = train.data,
                                         test.data = test.data,
                                         classifier = key,
@@ -83,6 +84,7 @@ predictions_and_performance <- function(train.data = train.data,
   return(list(performance_matrix = performance_matrix))
 }
 
+#Function to print dataset information.
 print_stats <- function(df){
   cat(paste0(
   'Total Rows: ',nrow(df),'\n',
@@ -100,8 +102,12 @@ print_stats <- function(df){
   print('DF Summary:\n')
   print(t(as.data.frame(summarytools::descr(df))[c('Mean','Std.Dev','Min','Median','Max','N.Valid','Pct.Valid'),]))
 }
-colors <- c("cyan", "violet","turquoise")
 
+#############################################################################
+#########################Start to process the data.##########################
+#############################################################################
+
+colors <- c("cyan", "violet","turquoise")
 df <- readxl::read_excel('data_pca_v1.xlsx')
 columns_to_exclude <- paste0("PC", 25:34)
 df <- df[,-which(colnames(df) %in% columns_to_exclude)]
@@ -186,7 +192,7 @@ for (key in names(classifiers)) {
   
 }
 
+#print and saving results
 knitr::kable(unique(performance_matrix))
-
 writexl::write_xlsx(unique(performance_matrix),path = 'classifier_scores_pc24.xlsx')
 
